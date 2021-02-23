@@ -22,7 +22,7 @@ export const Layout: React.FC<Props> = (props) => {
 export const Center = (props) => {
   const { children, ...restProps } = props;
   return (
-    <Box {...restProps} position="absolute" top="50%" left="50%" transform="translate(-50%, -50%)">
+    <Box position="absolute" top="50%" left="50%" transform="translate(-50%, -50%)" {...restProps}>
       {children}
     </Box>
   );

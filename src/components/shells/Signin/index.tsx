@@ -1,5 +1,6 @@
 import { Button } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
+import { Center } from '@components/common';
 
 export const SigninShell = () => {
   const router = useRouter();
@@ -8,8 +9,8 @@ export const SigninShell = () => {
     router.push('/dashboard');
   };
   return (
-    <>
+    <Center>
       <Button onClick={onClickSignin}>Signin with twitter</Button>
-    </>
+    </Center>
   );
 };
