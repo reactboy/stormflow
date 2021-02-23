@@ -1,5 +1,11 @@
-const Home = () => {
-  return <>home</>;
+import { TopShell } from '@components/shells';
+
+const Top = () => {
+  return (
+    <>
+      <TopShell />
+    </>
+  );
 };
 
-export default Home;
+export default Top;
