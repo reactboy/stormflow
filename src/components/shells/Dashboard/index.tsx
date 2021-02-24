@@ -1,93 +1,13 @@
+import { useQuery } from 'react-query';
 import { Button, Box, useDisclosure } from '@chakra-ui/react';
 import { Tweet } from '@utils/types';
+import { fetcher } from '@utils';
 import { TweetStormBox, NewStormModal } from './components';
-
-//MEMO サーバーサイドで取得してこの形に整形する。
-//TODO 型の共通化
-const stubStorms: Tweet[] = [
-  {
-    id: '1',
-    text: 'initial storm',
-    includes: [
-      {
-        id: '1-1',
-        text: 'followed storm',
-        includes: [
-          {
-            id: '1-1-1',
-            text: 'followed followed storm',
-            includes: [
-              {
-                id: '1-1-1-1',
-                text: 'followed followed followed storm',
-                includes: [],
-              },
-            ],
-          },
-          {
-            id: '1-1-2',
-            text: 'followed followed storm',
-            includes: [],
-          },
-        ],
-      },
-      {
-        id: '1-2',
-        text: 'followed storm',
-        includes: [],
-      },
-      {
-        id: '1-3',
-        text: 'followed storm',
-        includes: [],
-      },
-      ,
-    ],
-  },
-  {
-    id: '2',
-    text: 'initial storm',
-    includes: [
-      {
-        id: '2-1',
-        text: 'followed storm',
-        includes: [
-          {
-            id: '2-1-1',
-            text: 'followed followed storm',
-            includes: [
-              {
-                id: '2-1-1-1',
-                text: 'followed followed followed storm',
-                includes: [],
-              },
-            ],
-          },
-          {
-            id: '2-1-2',
-            text: 'followed followed storm',
-            includes: [],
-          },
-        ],
-      },
-      {
-        id: '2-2',
-        text: 'followed storm',
-        includes: [],
-      },
-      {
-        id: '2-3',
-        text: 'followed storm',
-        includes: [],
-      },
-      ,
-    ],
-  },
-];
 
 export const DashboardShell = () => {
   const { isOpen: isOpenCreate, onOpen: onOpenCreate, onClose: onCloseCreate } = useDisclosure();
   const { isOpen: isOpenAdd, onOpen: onOpenAdd, onClose: onCloseAdd } = useDisclosure();
+  const { data: storms, isLoading } = useQuery<Tweet[]>('storms', fetcher('/api/fetchStorm'));
 
   const onCreateStorm = () => {
     console.log('create storm');
@@ -101,11 +21,14 @@ export const DashboardShell = () => {
     console.log('new storm added');
     onCloseAdd();
   };
+
+  if (isLoading) return <>loading</>;
+
   return (
     <>
       <Box>
-        {!!stubStorms.length
-          ? stubStorms.map((storm) => (
+        {!!storms.length
+          ? storms.map((storm) => (
               <TweetStormBox key={storm.id} tweet={storm} onAddStorm={onAddStorm} />
             ))
           : null}
@@ -119,14 +42,14 @@ export const DashboardShell = () => {
         isOpen={isOpenCreate}
         onClose={onCloseCreate}
         headerText="CREATE Storm"
-        inputPlaceholder="create storm"
+        inputPlaceholder="What's in your head ?"
         onStorm={onCreateStorm}
       />
       <NewStormModal
         isOpen={isOpenAdd}
         onClose={onCloseAdd}
         headerText="ADD Storm"
-        inputPlaceholder="add storm"
+        inputPlaceholder="What's in your head ?"
         onStorm={onSubmitAddStorm}
       />
     </>

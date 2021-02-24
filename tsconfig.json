@@ -17,8 +17,9 @@
     "paths": {
       "@libs/*": ["src/libs/*"],
       "@components/*": ["src/components/*"],
-      "@utils/*": ["src/utils/*"],
       "@assets/*": ["src/assets/*"],
+      "@utils/*": ["src/utils/*"],
+      "@utils": ["src/utils"],
       "@styles/*": ["src/styles/*"],
       "@redux/*": ["src/redux/*"]
     }
