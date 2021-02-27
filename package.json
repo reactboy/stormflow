@@ -14,6 +14,7 @@
     "@reduxjs/toolkit": "^1.5.0",
     "axios": "^0.21.1",
     "framer-motion": "^3.6.2",
+    "mongoose": "^5.11.18",
     "next": "10.0.7",
     "next-auth": "^3.5.1",
     "react": "17.0.1",
