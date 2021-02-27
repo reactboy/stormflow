@@ -1,3 +1,5 @@
+import { dbConnect } from '@utils/mongodb';
+import { Storm } from '@utils/mongodb/models';
 //MEMO サーバーサイドで取得してこの形に整形する。
 
 const stubStorms = [
@@ -79,6 +81,11 @@ const stubStorms = [
   },
 ];
 
-export default (req, res) => {
+export default async (_req, res) => {
+  await dbConnect();
+
+  const resStorm = await Storm.find({});
+  console.log(resStorm);
+
   res.status(200).json(stubStorms);
 };

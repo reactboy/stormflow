@@ -1,0 +1,13 @@
+import mongoose from 'mongoose';
+
+export const dbConnect = () => {
+    if(mongoose.connection.readyState >= 1){
+        return;
+    }
+    return mongoose.connect(process.env.NEXT_MONGODB_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false,
+        useCreateIndex: true,
+    })
+}
