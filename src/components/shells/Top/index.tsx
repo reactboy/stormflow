@@ -8,7 +8,7 @@ export const TopShell = () => {
   };
   return (
     <Center>
-      <Button onClick={onClickCTA}>Start using StormFlow</Button>
+      <Button onClick={onClickCTA}>Start using Stormflow</Button>
     </Center>
   );
 };

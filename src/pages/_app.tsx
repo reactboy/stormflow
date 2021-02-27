@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ChakraProvider } from '@chakra-ui/react';
 import { Provider } from 'react-redux';
@@ -9,15 +10,20 @@ const queryClient = new QueryClient();
 
 const App = ({ Component, pageProps }) => {
   return (
-    <QueryClientProvider client={queryClient}>
-      <ChakraProvider resetCSS>
-        <Provider store={store}>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </Provider>
-      </ChakraProvider>
-    </QueryClientProvider>
+    <>
+      <Head>
+        <title>Stormflow</title>
+      </Head>
+      <QueryClientProvider client={queryClient}>
+        <ChakraProvider resetCSS>
+          <Provider store={store}>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </Provider>
+        </ChakraProvider>
+      </QueryClientProvider>
+    </>
   );
 };
 
