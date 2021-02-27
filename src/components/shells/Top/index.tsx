@@ -1,11 +1,10 @@
-import { Button, Box } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
+import { Button } from '@chakra-ui/react';
 import { Center } from '@components/common';
+import { signIn } from 'next-auth/client';
 
 export const TopShell = () => {
-  const router = useRouter();
   const onClickCTA = () => {
-    router.push('/signin');
+    signIn();
   };
   return (
     <Center>

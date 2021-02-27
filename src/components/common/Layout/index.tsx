@@ -11,7 +11,7 @@ export const Layout: React.FC<Props> = (props) => {
   return (
     <Flex minH="100vh" w="100%" maxW="1440px" direction="column" bg="gray.50">
       {Header && <Header />}
-      <Box flex="1" position="relative" p="8px">
+      <Box flex="1" position="relative">
         {children}
       </Box>
       {Footer && <Footer />}

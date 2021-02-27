@@ -10,5 +10,8 @@ export default NextAuth({
       clientSecret: process.env.TWITTER_CLIENT_SECRET,
     }),
   ],
+  pages: {
+    signIn: '/signin',
+  },
   // database: process.env.DATABASE_URL,
 });

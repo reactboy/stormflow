@@ -1,16 +1,37 @@
-import { Button } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
+import Link from 'next/link';
+import { signIn, useSession } from 'next-auth/client';
+import { Button, Flex } from '@chakra-ui/react';
 import { Center } from '@components/common';
 
-export const SigninShell = () => {
-  const router = useRouter();
-  const onClickSignin = () => {
-    alert('sign in');
-    router.push('/dashboard');
-  };
+type SigninShellProps = {
+  //TODO next-auth関係の型定義の仕方を考える
+  providers: any[];
+};
+
+export const SigninShell: React.FC<SigninShellProps> = (props) => {
+  const { providers } = props;
+  const session = useSession();
+  console.log(session);
   return (
     <Center>
-      <Button onClick={onClickSignin}>Signin with twitter</Button>
+      {Object.values(providers).map((provider) => (
+        <div key={provider.name}>
+          <Button
+            onClick={() =>
+              signIn(provider.id, { callbackUrl: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard` })
+            }
+          >
+            Sign in with {provider.name}
+          </Button>
+        </div>
+      ))}
+      <Flex justifyContent="center" mt="16px">
+        <Link href="/">
+          <Button as="a" cursor="pointer">
+            back to top
+          </Button>
+        </Link>
+      </Flex>
     </Center>
   );
 };
