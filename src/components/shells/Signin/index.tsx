@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { signIn, useSession } from 'next-auth/client';
+import { signIn } from 'next-auth/client';
 import { Button, Flex } from '@chakra-ui/react';
 import { Center } from '@components/common';
 
@@ -10,8 +10,6 @@ type SigninShellProps = {
 
 export const SigninShell: React.FC<SigninShellProps> = (props) => {
   const { providers } = props;
-  const session = useSession();
-  console.log(session);
   return (
     <Center>
       {Object.values(providers).map((provider) => (

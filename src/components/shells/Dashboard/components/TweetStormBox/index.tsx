@@ -11,7 +11,14 @@ export const TweetStormBox: React.FC<TweetStormBoxProps> = (props) => {
   const { tweet, onAddStorm } = props;
   const { id, text, includes = [] } = tweet;
   return (
-    <Box bg="white" p="8px" maxW="600px" border="1px" borderColor="gray.400">
+    <Box
+      bg="white"
+      p="8px"
+      maxW="600px"
+      borderY="1px"
+      borderColor="gray.400"
+      _notFirst={{ borderTop: 'none' }}
+    >
       <Text fontSize="16px">{text}</Text>
       {!!includes.length &&
         includes.map((tweet) => <TweetStorm level={0 + 1} key={tweet.id} tweet={tweet} />)}

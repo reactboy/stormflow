@@ -1,14 +1,14 @@
 import { useQuery } from 'react-query';
-import { signOut } from 'next-auth/client';
-import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/client';
 import { Button, Box, useDisclosure } from '@chakra-ui/react';
 import { Tweet } from '@utils/types';
 import { fetcher } from '@utils';
 import { useWindowSize } from '@hooks';
+import { Navigation } from '@components/common';
 import { TweetStormBox, NewStormModal } from './components';
 
 export const DashboardShell = () => {
-  const router = useRouter();
+  const [session, loading] = useSession();
   const { isOpen: isOpenCreate, onOpen: onOpenCreate, onClose: onCloseCreate } = useDisclosure();
   const { isOpen: isOpenAdd, onOpen: onOpenAdd, onClose: onCloseAdd } = useDisclosure();
   const { data: storms, isLoading } = useQuery<Tweet[]>('storms', fetcher('/api/fetchStorm'));
@@ -27,21 +27,14 @@ export const DashboardShell = () => {
     onCloseAdd();
   };
 
-  if (isLoading) return <>loading</>;
+  if (isLoading || loading) return <>loading</>;
 
   return (
     <>
-      <Box maxW="600px" mx="auto" minH={`${height}px`} border="1px" borderColor="gray.400">
-        <Button
-          w="100%"
-          onClick={async () => {
-            //@ts-ignore
-            const data: any = await signOut({ redirect: false, callbackUrl: '/' });
-            router.push(data.url);
-          }}
-        >
-          sign out
-        </Button>
+      <Box pos="fixed" bottom="8px" right="8px">
+        <Navigation user={session ? session.user : null} />
+      </Box>
+      <Box maxW="600px" mx="auto" minH={`${height}px`} borderX="1px" borderColor="gray.400">
         <Button w="100%" onClick={onOpenCreate}>
           create storm
         </Button>
