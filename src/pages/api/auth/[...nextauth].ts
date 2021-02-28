@@ -13,5 +13,19 @@ export default NextAuth({
   pages: {
     signIn: '/signin',
   },
-  database: process.env.NEXT_MONGODB_URI,
+  callbacks: {
+    session: async (session, token) => {
+      return {
+        ...session,
+        accessToken: token.accessToken,
+        refreshToken: token.refreshToken,
+        uid: token.sub,
+      };
+    },
+    jwt: async (token, _user, account, _profile, _isNewUser) => {
+      if (!token.accessToken) token.accessToken = account.accessToken;
+      if (!token.refreshToken) token.refreshToken = account.refreshToken;
+      return token;
+    },
+  },
 });
