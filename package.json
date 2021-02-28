@@ -20,7 +20,9 @@
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-query": "^3.9.8",
-    "react-redux": "^7.2.2"
+    "react-redux": "^7.2.2",
+    "twitter-lite": "^1.1.0",
+    "twitter-v2": "^1.0.5"
   },
   "devDependencies": {
     "@types/next-auth": "^3.1.24",
