@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useQuery, useMutation } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { useSession } from 'next-auth/client';
 import { Button, Box, useDisclosure } from '@chakra-ui/react';
 import { Tweet } from '@utils/types';
@@ -14,11 +14,13 @@ export const DashboardShell = () => {
   const [session, loading] = useSession();
   const { isOpen: isOpenCreate, onOpen: onOpenCreate, onClose: onCloseCreate } = useDisclosure();
   const { isOpen: isOpenAdd, onOpen: onOpenAdd, onClose: onCloseAdd } = useDisclosure();
+  const queryClient = useQueryClient();
   const { data: storms, isLoading } = useQuery<Tweet[]>('storms', fetcher('/api/fetchStorm'));
   //NOTE any any any any直す
   const { mutate } = useMutation<any, any, any, any>(mutator('/api/createStorm'), {
     onSuccess: () => {
       console.log('mutation success');
+      queryClient.invalidateQueries('storms');
     },
     onError: () => {
       console.log('mutation error');
@@ -28,7 +30,7 @@ export const DashboardShell = () => {
 
   const onCreateStorm = () => {
     if (!tweetInput) return;
-    console.log('new storm created',tweetInput);
+    console.log('new storm created', tweetInput);
     mutate({ tweetInput });
     setTweetInput('');
     onCloseCreate();
