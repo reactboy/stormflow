@@ -1,7 +1,9 @@
+import { getSession } from 'next-auth/client';
 import { dbConnect } from '@utils/mongodb';
 import { Storm } from '@utils/mongodb/models';
-//MEMO サーバーサイドで取得してこの形に整形する。
+import { getTwitterClient } from '@libs/twitter';
 
+//NOTE サーバーサイドで取得してこの形に整形する。
 const stubStorms = [
   {
     id: '1',
@@ -81,11 +83,20 @@ const stubStorms = [
   },
 ];
 
-export default async (_req, res) => {
+export default async (req, res) => {
+  const session = await getSession({ req });
+  const { accessToken, refreshToken, uid } = session;
+
+  //NOTE uidが一致するものを取得する
   await dbConnect();
-
   const resStorm = await Storm.find({});
-  console.log(resStorm);
 
-  res.status(200).json(stubStorms);
+  //NOTE resStormにidが含まれるtweetを取得したい
+  const twitter = await getTwitterClient(accessToken, refreshToken);
+  const tweets = await twitter.get('statuses/user_timeline', {
+    user_id: uid,
+  });
+  // console.log(tweets);
+
+  res.status(200).json(tweets);
 };
