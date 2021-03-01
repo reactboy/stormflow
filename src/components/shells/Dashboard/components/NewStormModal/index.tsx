@@ -17,10 +17,11 @@ type NewStormModalProps = {
   headerText: string;
   inputPlaceholder: string;
   onStorm: () => void;
+  onChangeInput: (e) => void;
 };
 
 export const NewStormModal: React.FC<NewStormModalProps> = (props) => {
-  const { isOpen, onClose, headerText, inputPlaceholder, onStorm } = props;
+  const { isOpen, onClose, headerText, inputPlaceholder, onStorm , onChangeInput} = props;
   const initialFocusRef = useRef();
   return (
     <Modal initialFocusRef={initialFocusRef} isOpen={isOpen} onClose={onClose}>
@@ -29,7 +30,7 @@ export const NewStormModal: React.FC<NewStormModalProps> = (props) => {
         <ModalHeader>{headerText}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Textarea ref={initialFocusRef} placeholder={inputPlaceholder} />
+          <Textarea ref={initialFocusRef} placeholder={inputPlaceholder} onChange={onChangeInput} />
         </ModalBody>
         <ModalFooter>
           <Button onClick={onStorm}>STORM</Button>

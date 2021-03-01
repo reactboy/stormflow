@@ -1,29 +1,48 @@
-import { useQuery } from 'react-query';
+import { useState } from 'react';
+import { useQuery, useMutation } from 'react-query';
 import { useSession } from 'next-auth/client';
 import { Button, Box, useDisclosure } from '@chakra-ui/react';
 import { Tweet } from '@utils/types';
-import { fetcher } from '@utils';
+import { fetcher, mutator } from '@utils';
 import { useWindowSize } from '@hooks';
 import { Navigation } from '@components/common';
 import { TweetStormBox, NewStormModal } from './components';
 
 export const DashboardShell = () => {
+  const [tweetInput, setTweetInput] = useState<string>('');
+  const [replyId, setReplyId] = useState<string>('');
   const [session, loading] = useSession();
   const { isOpen: isOpenCreate, onOpen: onOpenCreate, onClose: onCloseCreate } = useDisclosure();
   const { isOpen: isOpenAdd, onOpen: onOpenAdd, onClose: onCloseAdd } = useDisclosure();
   const { data: storms, isLoading } = useQuery<Tweet[]>('storms', fetcher('/api/fetchStorm'));
+  //NOTE any any any any直す
+  const { mutate } = useMutation<any, any, any, any>(mutator('/api/createStorm'), {
+    onSuccess: () => {
+      console.log('mutation success');
+    },
+    onError: () => {
+      console.log('mutation error');
+    },
+  });
   const { height } = useWindowSize();
 
   const onCreateStorm = () => {
-    console.log('create storm');
+    if (!tweetInput) return;
+    console.log('new storm created',tweetInput);
+    mutate({ tweetInput });
+    setTweetInput('');
     onCloseCreate();
   };
   const onAddStorm = (id: string) => () => {
-    console.log('add storm ', id);
+    setReplyId(id);
     onOpenAdd();
   };
   const onSubmitAddStorm = () => {
-    console.log('new storm added');
+    if (!tweetInput || !replyId) return;
+    console.log('new storm added', replyId, tweetInput);
+    mutate({ tweetInput, replyId });
+    setTweetInput('');
+    setReplyId('');
     onCloseAdd();
   };
 
@@ -49,6 +68,7 @@ export const DashboardShell = () => {
       <NewStormModal
         isOpen={isOpenCreate}
         onClose={onCloseCreate}
+        onChangeInput={(e) => setTweetInput(e.target.value)}
         headerText="CREATE Storm"
         inputPlaceholder="What's in your head ?"
         onStorm={onCreateStorm}
@@ -56,6 +76,7 @@ export const DashboardShell = () => {
       <NewStormModal
         isOpen={isOpenAdd}
         onClose={onCloseAdd}
+        onChangeInput={(e) => setTweetInput(e.target.value)}
         headerText="ADD Storm"
         inputPlaceholder="What's in your head ?"
         onStorm={onSubmitAddStorm}

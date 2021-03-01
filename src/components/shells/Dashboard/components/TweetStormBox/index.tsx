@@ -9,7 +9,7 @@ type TweetStormBoxProps = {
 
 export const TweetStormBox: React.FC<TweetStormBoxProps> = (props) => {
   const { tweet, onAddStorm } = props;
-  const { id, text, includes = [] } = tweet;
+  const { id_str, text, includes = [] } = tweet;
   return (
     <Box
       bg="white"
@@ -22,7 +22,7 @@ export const TweetStormBox: React.FC<TweetStormBoxProps> = (props) => {
       <Text fontSize="16px">{text}</Text>
       {!!includes.length &&
         includes.map((tweet) => <TweetStorm level={0 + 1} key={tweet.id} tweet={tweet} />)}
-      <Button mt="8px" w="100%" onClick={onAddStorm(id)}>
+      <Button mt="8px" w="100%" onClick={onAddStorm(id_str)}>
         ADD Storm
       </Button>
     </Box>
