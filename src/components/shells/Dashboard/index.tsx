@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { useSession } from 'next-auth/client';
-import { Button, Box, useDisclosure, useToast } from '@chakra-ui/react';
+import { Button, Box, useDisclosure, Stack, Skeleton, useToast } from '@chakra-ui/react';
 import { Tweet } from '@utils/types';
 import { fetcher, mutator } from '@utils';
 import { useWindowSize } from '@hooks';
@@ -12,7 +12,7 @@ export const DashboardShell = () => {
   const { height } = useWindowSize();
   const [tweetInput, setTweetInput] = useState<string>('');
   const [replyId, setReplyId] = useState<string>('');
-  const [session, loading] = useSession();
+  const [session, loadingSession] = useSession();
   const { isOpen: isOpenCreate, onOpen: onOpenCreate, onClose: onCloseCreate } = useDisclosure();
   const { isOpen: isOpenAdd, onOpen: onOpenAdd, onClose: onCloseAdd } = useDisclosure();
   const toast = useToast();
@@ -57,7 +57,7 @@ export const DashboardShell = () => {
     onCloseAdd();
   };
 
-  if (isLoading || loading) return <>loading</>;
+  // if (loadingSession) return <div>spinner</div>;
 
   return (
     <>
@@ -65,14 +65,25 @@ export const DashboardShell = () => {
         <Navigation user={session ? session.user : null} />
       </Box>
       <Box maxW="600px" mx="auto" minH={`${height}px`} borderX="1px" borderColor="gray.400">
-        <Button w="100%" onClick={onOpenCreate}>
-          create storm
-        </Button>
-        {!!storms.length
-          ? storms.map((storm) => (
-              <TweetStormBox key={storm.id} tweet={storm} onAddStorm={onAddStorm} />
-            ))
-          : null}
+        {(loadingSession || isLoading) && (
+          <Stack p="8px">
+            {[...Array(32)].map((_value, i) => (
+              <Skeleton key={i} mt="4px" height="40px" />
+            ))}
+          </Stack>
+        )}
+        {!isLoading && (
+          <>
+            <Button w="100%" onClick={onOpenCreate}>
+              create storm
+            </Button>
+            {!!storms.length
+              ? storms.map((storm) => (
+                  <TweetStormBox key={storm.id} tweet={storm} onAddStorm={onAddStorm} />
+                ))
+              : null}
+          </>
+        )}
       </Box>
 
       {/* TODO 新規作成と追加は表示モーダルは分けるがコンポーネントは共通化 */}
