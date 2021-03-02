@@ -1,32 +1,41 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { useSession } from 'next-auth/client';
-import { Button, Box, useDisclosure } from '@chakra-ui/react';
+import { Button, Box, useDisclosure, useToast } from '@chakra-ui/react';
 import { Tweet } from '@utils/types';
 import { fetcher, mutator } from '@utils';
 import { useWindowSize } from '@hooks';
-import { Navigation } from '@components/common';
+import { Navigation, Toast } from '@components/common';
 import { TweetStormBox, NewStormModal } from './components';
 
 export const DashboardShell = () => {
+  const { height } = useWindowSize();
   const [tweetInput, setTweetInput] = useState<string>('');
   const [replyId, setReplyId] = useState<string>('');
   const [session, loading] = useSession();
   const { isOpen: isOpenCreate, onOpen: onOpenCreate, onClose: onCloseCreate } = useDisclosure();
   const { isOpen: isOpenAdd, onOpen: onOpenAdd, onClose: onCloseAdd } = useDisclosure();
+  const toast = useToast();
   const queryClient = useQueryClient();
   const { data: storms, isLoading } = useQuery<Tweet[]>('storms', fetcher('/api/fetchStorm'));
   //NOTE any any any any直す
   const { mutate } = useMutation<any, any, any, any>(mutator('/api/createStorm'), {
     onSuccess: () => {
-      console.log('mutation success');
       queryClient.invalidateQueries('storms');
+      toast({
+        position: 'top-right',
+        render: () => <Toast>STORM STORM STORM</Toast>,
+        duration: 1500,
+      });
     },
     onError: () => {
-      console.log('mutation error');
+      toast({
+        position: 'top-right',
+        render: () => <Toast status="fatal">ERROR:TRY AGAIN LATER</Toast>,
+        duration: 1500,
+      });
     },
   });
-  const { height } = useWindowSize();
 
   const onCreateStorm = () => {
     if (!tweetInput) return;
