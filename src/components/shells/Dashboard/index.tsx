@@ -61,7 +61,7 @@ export const DashboardShell = () => {
 
   return (
     <>
-      <Box pos="fixed" bottom="8px" right="8px">
+      <Box pos="fixed" bottom="8px" right="8px" zIndex="1000">
         <Navigation user={session ? session.user : null} />
       </Box>
       <Box maxW="600px" mx="auto" minH={`${height}px`} borderX="1px" borderColor="gray.400">
@@ -74,9 +74,21 @@ export const DashboardShell = () => {
         )}
         {!isLoading && (
           <>
-            <Button w="100%" onClick={onOpenCreate}>
-              create storm
-            </Button>
+            <Box
+              w="100%"
+              p="5px"
+              bg="white"
+              borderY="1px"
+              borderColor="gray.400"
+              pos="sticky"
+              top="0"
+              left="0"
+              zIndex="1000"
+            >
+              <Button w="100%" onClick={onOpenCreate} borderRadius="20px">
+                CREATE STORM
+              </Button>
+            </Box>
             {!!storms.length
               ? storms.map((storm) => (
                   <TweetStormBox key={storm.id} tweet={storm} onAddStorm={onAddStorm} />

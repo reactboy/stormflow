@@ -1,4 +1,4 @@
-import { Box, Button, Text } from '@chakra-ui/react';
+import { Box, Button, Text, IconButton, Icon, Flex } from '@chakra-ui/react';
 import { Tweet } from '@utils/types';
 import { TweetStorm } from './components';
 
@@ -22,9 +22,23 @@ export const TweetStormBox: React.FC<TweetStormBoxProps> = (props) => {
       <Text fontSize="16px">{text}</Text>
       {!!includes.length &&
         includes.map((tweet) => <TweetStorm level={0 + 1} key={tweet.id} tweet={tweet} />)}
-      <Button mt="8px" w="100%" onClick={onAddStorm(id_str)}>
-        ADD Storm
-      </Button>
+      <Flex pt="4px">
+        <IconButton
+          size="sm"
+          ml="auto"
+          onClick={onAddStorm(id_str)}
+          aria-label="add storm"
+          icon={
+            //TODO アイコンを変える
+            <Icon viewBox="0 0 200 200" color="red.500">
+              <path
+                fill="currentColor"
+                d="M 100, 100 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0"
+              />
+            </Icon>
+          }
+        />
+      </Flex>
     </Box>
   );
 };
