@@ -1,6 +1,6 @@
 import { getSession } from 'next-auth/client';
 import { dbConnect } from '@utils/mongodb';
-import { Storm } from '@utils/mongodb/models';
+import { Storm, StormDocument } from '@utils/mongodb/models';
 import { getTwitterClient } from '@libs/twitter';
 
 export default async (req, res) => {
@@ -20,10 +20,12 @@ export default async (req, res) => {
         }
       : { status: tweetInput },
   );
-　console.log(tweet);
+  console.log(tweet);
 
+  const storm = { tweetId: tweet.id, userId: uid } as StormDocument;
   await dbConnect();
-  //   const resStorm = await Storm.create({});
+  const resStorm = await Storm.create(storm);
+  console.log(resStorm);
 
   res.status(200).json({ text: 'success' });
 };

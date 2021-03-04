@@ -1,14 +1,24 @@
-import mongoose from 'mongoose';
+import mongoose, { Document } from 'mongoose';
 
-const StormSchema = new mongoose.Schema({
-  tweetId: {
-    type: Number,
-    required: [true, 'tweet id is missing...'],
-  },
-  userId: {
-    type: Number,
-    required: [true, 'user is is missing...'],
-  },
-});
+export interface StormDocument extends Document {
+  tweetId: number;
+  userId: number;
+}
 
-export default mongoose.models.Storm || mongoose.model('Storm', StormSchema);
+const StormSchema = new mongoose.Schema(
+  {
+    tweetId: {
+      type: Number,
+      required: [true, 'tweet id is missing...'],
+    },
+    userId: {
+      type: Number,
+      required: [true, 'user is is missing...'],
+    },
+  },
+  {
+    timestamps: true,
+  },
+);
+
+export const Storm = mongoose.models.Storm || mongoose.model<StormDocument>('Storm', StormSchema);

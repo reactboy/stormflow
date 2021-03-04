@@ -1,4 +1,2 @@
-import Storm from './Storm';
-import User from './User';
-
-export { Storm, User };
+export * from './Storm';
+export * from './User';
