@@ -1,5 +1,7 @@
 import NextAuth from 'next-auth';
 import Providers from 'next-auth/providers';
+import { dbConnect } from '@utils/mongodb';
+import { User } from '@utils/mongodb/models';
 
 //TODO ts-ignoreを無くす
 //@ts-ignore
@@ -14,6 +16,15 @@ export default NextAuth({
     signIn: '/signin',
   },
   callbacks: {
+    signIn: async (_user, _account, profile) => {
+      await dbConnect();
+      const filter = { userId: profile.id };
+      const update = { userId: profile.id, email: profile.email };
+      //TODO ts-ignore消す
+      //@ts-ignore
+      await User.findOneAndUpdate(filter, update, { upsert: true });
+      return true;
+    },
     session: async (session, token) => {
       return {
         ...session,
