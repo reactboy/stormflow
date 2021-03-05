@@ -5,7 +5,7 @@ import { Button, Box, useDisclosure, Stack, Skeleton, useToast } from '@chakra-u
 import { Tweet } from '@utils/types';
 import { fetcher, mutator } from '@utils';
 import { useWindowSize } from '@hooks';
-import { Navigation, Toast } from '@components/common';
+import { Navigation, Toast, Footer } from '@components/common';
 import { TweetStormBox, NewStormModal } from './components';
 
 export const DashboardShell = () => {
@@ -62,6 +62,9 @@ export const DashboardShell = () => {
   return (
     <>
       <Box pos="fixed" bottom="8px" right="8px" zIndex="1000">
+        <Footer />
+      </Box>
+      <Box pos="fixed" top="8px" right="8px" zIndex="1000">
         <Navigation user={session ? session.user : null} />
       </Box>
       <Box maxW="600px" mx="auto" minH={`${height}px`} borderX="1px" borderColor="gray.400">
