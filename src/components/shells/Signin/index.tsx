@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { signIn } from 'next-auth/client';
-import { Button, Flex } from '@chakra-ui/react';
-import { Center } from '@components/common';
+import { Box, Button, Flex } from '@chakra-ui/react';
+import { Center, Logo, Footer } from '@components/common';
 
 type SigninShellProps = {
   //TODO next-auth関係の型定義の仕方を考える
@@ -11,25 +11,35 @@ type SigninShellProps = {
 export const SigninShell: React.FC<SigninShellProps> = (props) => {
   const { providers } = props;
   return (
-    <Center>
-      {Object.values(providers).map((provider) => (
-        <div key={provider.name}>
-          <Button
-            onClick={() =>
-              signIn(provider.id, { callbackUrl: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard` })
-            }
-          >
-            Sign in with {provider.name}
-          </Button>
-        </div>
-      ))}
-      <Flex justifyContent="center" mt="16px">
-        <Link href="/">
-          <Button as="a" cursor="pointer">
-            back to top
-          </Button>
-        </Link>
-      </Flex>
-    </Center>
+    <>
+      <Center transform="translate(-50%, -100%)">
+        <Logo as="h1" />
+        <Flex justifyContent="center" alignItems="flex-end" mt="16px">
+          <Link href="/">
+            <Button as="a" cursor="pointer" size="xs">
+              back to top
+            </Button>
+          </Link>
+          {Object.values(providers).map((provider) => (
+            <Button
+              ml="16px"
+              key={provider.name}
+              bg="twitter.400"
+              _hover={{ opacity: 0.8 }}
+              color="white"
+              size="sm"
+              onClick={() =>
+                signIn(provider.id, { callbackUrl: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard` })
+              }
+            >
+              Sign in with {provider.name}
+            </Button>
+          ))}
+        </Flex>
+      </Center>
+      <Box position="fixed" bottom="8px" left="50%" transform="translateX(-50%)">
+        <Footer direction="row" />
+      </Box>
+    </>
   );
 };

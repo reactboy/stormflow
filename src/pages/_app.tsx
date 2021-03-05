@@ -4,6 +4,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { Provider } from 'react-redux';
 import { Layout } from '@components/common';
 import store from '@redux/store';
+import theme from '@styles/theme';
 
 //NOTE setup for react-query
 const queryClient = new QueryClient();
@@ -15,7 +16,7 @@ const App = ({ Component, pageProps }) => {
         <title>Stormflow</title>
       </Head>
       <QueryClientProvider client={queryClient}>
-        <ChakraProvider resetCSS>
+        <ChakraProvider resetCSS theme={theme}>
           <Provider store={store}>
             <Layout>
               <Component {...pageProps} />
