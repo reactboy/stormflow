@@ -9,6 +9,7 @@ import {
   ModalBody,
   ModalCloseButton,
   Textarea,
+  Text
 } from '@chakra-ui/react';
 
 type NewStormModalProps = {
@@ -18,10 +19,11 @@ type NewStormModalProps = {
   inputPlaceholder: string;
   onStorm: () => void;
   onChangeInput: (e) => void;
+  count: number;
 };
 
 export const NewStormModal: React.FC<NewStormModalProps> = (props) => {
-  const { isOpen, onClose, headerText, inputPlaceholder, onStorm , onChangeInput} = props;
+  const { isOpen, onClose, headerText, inputPlaceholder, onStorm, onChangeInput, count } = props;
   const initialFocusRef = useRef();
   return (
     <Modal initialFocusRef={initialFocusRef} isOpen={isOpen} onClose={onClose}>
@@ -31,8 +33,9 @@ export const NewStormModal: React.FC<NewStormModalProps> = (props) => {
         <ModalCloseButton />
         <ModalBody>
           <Textarea ref={initialFocusRef} placeholder={inputPlaceholder} onChange={onChangeInput} />
+          <Text fontSize="xs" textAlign="right">{count}/144</Text>
         </ModalBody>
-        <ModalFooter>
+        <ModalFooter pt="0">
           <Button onClick={onStorm}>STORM</Button>
         </ModalFooter>
       </ModalContent>

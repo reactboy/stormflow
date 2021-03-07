@@ -106,17 +106,19 @@ export const DashboardShell = () => {
         isOpen={isOpenCreate}
         onClose={onCloseCreate}
         onChangeInput={(e) => setTweetInput(e.target.value)}
-        headerText="CREATE Storm"
+        headerText="CREATE STORM"
         inputPlaceholder="What's in your head ?"
         onStorm={onCreateStorm}
+        count={tweetInput.length}
       />
       <NewStormModal
         isOpen={isOpenAdd}
         onClose={onCloseAdd}
         onChangeInput={(e) => setTweetInput(e.target.value)}
-        headerText="ADD Storm"
+        headerText="ADD STORM"
         inputPlaceholder="What's in your head ?"
         onStorm={onSubmitAddStorm}
+        count={tweetInput.length}
       />
     </>
   );
