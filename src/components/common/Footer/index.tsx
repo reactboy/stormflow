@@ -7,7 +7,7 @@ type FooterProps = {
 export const Footer: React.FC<FooterProps> = (props) => {
   const { direction = 'column' } = props;
   return (
-    <>
+    <Box fontFamily="IBM Plex Mono">
       <Stack direction={direction} textAlign={direction === 'column' ? 'right' : 'left'}>
         {/* TODO ページ作ったらコメントアウト解除 */}
         {/* <Box>
@@ -38,6 +38,6 @@ export const Footer: React.FC<FooterProps> = (props) => {
           </Text>
         </Text>
       </Box>
-    </>
+    </Box>
   );
 };

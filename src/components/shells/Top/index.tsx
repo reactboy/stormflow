@@ -10,7 +10,7 @@ export const TopShell = () => {
     <>
       <Center transform="translate(-50%, -100%)">
         <Logo as="h1" />
-        <Box mt="16px">
+        <Box mt="24px">
           <Button size="sm" display="block" mx="auto" onClick={onClickCTA}>
             Start using Stormflow
           </Button>

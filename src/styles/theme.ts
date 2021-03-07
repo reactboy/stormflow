@@ -13,6 +13,13 @@ const styles = {
   },
 };
 
-const theme = extendTheme({ config, styles });
+const fonts = {
+  heading:
+    'IBM Plex Mono, -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Yu Gothic", YuGothic, Verdana, Meiryo, "M+ 1p", sans-serif',
+  body:
+    'IBM Plex Mono, -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Yu Gothic", YuGothic, Verdana, Meiryo, "M+ 1p", sans-serif',
+};
+
+const theme = extendTheme({ config, styles, fonts });
 
 export default theme;

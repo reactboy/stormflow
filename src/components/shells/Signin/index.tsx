@@ -14,7 +14,7 @@ export const SigninShell: React.FC<SigninShellProps> = (props) => {
     <>
       <Center transform="translate(-50%, -100%)">
         <Logo as="h1" />
-        <Flex justifyContent="center" alignItems="flex-end" mt="16px">
+        <Flex justifyContent="center" alignItems="flex-end" mt="24px">
           <Link href="/">
             <Button as="a" cursor="pointer" size="xs">
               back to top

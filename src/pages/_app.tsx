@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { Layout } from '@components/common';
 import store from '@redux/store';
 import theme from '@styles/theme';
+import Font from '@styles/font';
 
 //NOTE setup for react-query
 const queryClient = new QueryClient();
@@ -17,6 +18,7 @@ const App = ({ Component, pageProps }) => {
       </Head>
       <QueryClientProvider client={queryClient}>
         <ChakraProvider resetCSS theme={theme}>
+          <Font />
           <Provider store={store}>
             <Layout>
               <Component {...pageProps} />
