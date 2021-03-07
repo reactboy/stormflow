@@ -91,7 +91,7 @@ export const DashboardShell = () => {
               left="0"
               zIndex="1000"
             >
-              <Logo size="md"/>
+              <Logo size="md" />
               <Button
                 alignSelf="flex-end"
                 size="sm"
