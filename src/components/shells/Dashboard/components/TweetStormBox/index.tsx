@@ -17,7 +17,7 @@ export const TweetStormBox: React.FC<TweetStormBoxProps> = (props) => {
       p="8px"
       maxW="600px"
       borderY="1px"
-      borderColor="gray.400"
+      borderColor="gray.200"
       _notFirst={{ borderTop: 'none' }}
     >
       <Text fontSize="16px">{text}</Text>

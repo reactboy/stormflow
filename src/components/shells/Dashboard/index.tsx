@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { useSession } from 'next-auth/client';
-import { Button, Box, useDisclosure, Stack, Skeleton, useToast } from '@chakra-ui/react';
+import { Flex, Button, Box, useDisclosure, Stack, Skeleton, useToast } from '@chakra-ui/react';
 import { Tweet } from '@utils/types';
 import { fetcher, mutator } from '@utils';
 import { useWindowSize } from '@hooks';
-import { Navigation, Toast, Footer } from '@components/common';
+import { Navigation, Toast, Footer, Logo } from '@components/common';
 import { TweetStormBox, NewStormModal } from './components';
 
 export const DashboardShell = () => {
@@ -67,7 +67,7 @@ export const DashboardShell = () => {
       <Box pos="fixed" top="8px" right="8px" zIndex="1000">
         <Navigation user={session ? session.user : null} />
       </Box>
-      <Box maxW="600px" mx="auto" minH={`${height}px`} borderX="1px" borderColor="gray.400">
+      <Box maxW="600px" mx="auto" minH={`${height}px`} borderX="1px" borderColor="gray.200">
         {(loadingSession || isLoading) && (
           <Stack p="8px">
             {[...Array(32)].map((_value, i) => (
@@ -77,21 +77,31 @@ export const DashboardShell = () => {
         )}
         {!isLoading && (
           <>
-            <Box
+            <Flex
+              alignItems="center"
+              justifyContent="space-between"
               w="100%"
-              p="5px"
+              p="8px"
               bg="white"
-              borderY="1px"
-              borderColor="gray.400"
+              borderTop="1px"
+              borderBottom="2px"
+              borderColor="gray.200"
               pos="sticky"
               top="0"
               left="0"
               zIndex="1000"
             >
-              <Button w="100%" onClick={onOpenCreate} borderRadius="20px">
+              <Logo size="md"/>
+              <Button
+                alignSelf="flex-end"
+                size="sm"
+                display="inline-block"
+                onClick={onOpenCreate}
+                borderRadius="20px"
+              >
                 CREATE STORM
               </Button>
-            </Box>
+            </Flex>
             {!!storms.length
               ? storms.map((storm) => (
                   <TweetStormBox key={storm.id} tweet={storm} onAddStorm={onAddStorm} />
