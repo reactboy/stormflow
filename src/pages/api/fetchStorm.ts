@@ -1,6 +1,6 @@
 import { getSession } from 'next-auth/client';
 import { dbConnect } from '@utils/mongodb';
-import { Storm } from '@utils/mongodb/models';
+import { Storm, StormDocument } from '@utils/mongodb/models';
 import { getTwitterClient } from '@libs/twitter';
 
 //NOTE サーバーサイドで取得してこの形に整形する。
@@ -89,7 +89,9 @@ export default async (req, res) => {
 
   //NOTE uidが一致するものを取得する
   await dbConnect();
-  const resStorm = await Storm.find({});
+  const resStorm = await Storm.find({ userId: uid });
+  const stormId = (resStorm as StormDocument[]).map((storm) => storm.tweetId);
+  console.log('stormId', stormId);
 
   //NOTE resStormにidが含まれるtweetを取得したい
   const twitter = await getTwitterClient(accessToken, refreshToken);
