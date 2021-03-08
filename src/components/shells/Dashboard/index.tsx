@@ -1,7 +1,16 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { useSession } from 'next-auth/client';
-import { Flex, Button, Box, useDisclosure, Stack, Skeleton, useToast } from '@chakra-ui/react';
+import {
+  Flex,
+  Button,
+  Box,
+  useDisclosure,
+  Stack,
+  Skeleton,
+  useToast,
+  Text,
+} from '@chakra-ui/react';
 import { Tweet } from '@utils/types';
 import { fetcher, mutator } from '@utils';
 import { useWindowSize } from '@hooks';
@@ -67,7 +76,15 @@ export const DashboardShell = () => {
       <Box pos="fixed" top="8px" right="8px" zIndex="1000">
         <Navigation user={session ? session.user : null} />
       </Box>
-      <Box maxW="600px" mx="auto" minH={`${height}px`} borderX="1px" borderColor="gray.200">
+      <Box
+        bg="white"
+        maxW="600px"
+        mx="auto"
+        minH={`${height}px`}
+        borderX="1px"
+        borderColor="gray.200"
+        position="relative"
+      >
         {(loadingSession || isLoading) && (
           <Stack p="8px">
             {[...Array(32)].map((_value, i) => (
@@ -102,11 +119,40 @@ export const DashboardShell = () => {
                 CREATE STORM
               </Button>
             </Flex>
-            {!!storms.length
-              ? storms.map((storm) => (
-                  <TweetStormBox key={storm.id} tweet={storm} onAddStorm={onAddStorm} />
-                ))
-              : null}
+            {!!storms.length ? (
+              storms.map((storm) => (
+                <TweetStormBox key={storm.id} tweet={storm} onAddStorm={onAddStorm} />
+              ))
+            ) : (
+              <Box
+                pos="absolute"
+                top="50%"
+                left="50%"
+                zIndex="1000"
+                transform="translate(-50%, -200%)"
+                textAlign="center"
+                border="1px"
+                borderColor="gray.200"
+                py="16px"
+                px="24px"
+                borderRadius="16px"
+                w="100%"
+                maxW="320px"
+              >
+                <Text>
+                  <span>Create Your Very First STORM </span>
+                </Text>
+                <Button
+                  mt="16px"
+                  size="sm"
+                  display="inline-block"
+                  onClick={onOpenCreate}
+                  borderRadius="20px"
+                >
+                  STORM
+                </Button>
+              </Box>
+            )}
           </>
         )}
       </Box>
