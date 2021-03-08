@@ -22,7 +22,7 @@ export default async (req, res) => {
   );
   console.log(tweet);
 
-  const storm = { tweetId: tweet.id, userId: uid } as StormDocument;
+  const storm = { tweetId: tweet.id, tweetIdStr: tweet.id_str, userId: uid } as StormDocument;
   await dbConnect();
   const resStorm = await Storm.create(storm);
   console.log(resStorm);

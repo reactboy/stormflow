@@ -90,15 +90,15 @@ export default async (req, res) => {
   //NOTE uidが一致するものを取得する
   await dbConnect();
   const resStorm = await Storm.find({ userId: uid });
-  const stormId = (resStorm as StormDocument[]).map((storm) => storm.tweetId);
-  console.log('stormId', stormId);
+  const stormId = (resStorm as StormDocument[]).map((storm) => storm.tweetIdStr).join(',');
 
   //NOTE resStormにidが含まれるtweetを取得したい
   const twitter = await getTwitterClient(accessToken, refreshToken);
-  const tweets = await twitter.get('statuses/user_timeline', {
-    user_id: uid,
+  const tweets = await twitter.get('statuses/lookup', {
+    id: stormId,
+    trim_user: true
   });
-  // console.log(tweets);
+  console.log(tweets);
 
   res.status(200).json(tweets);
 };
