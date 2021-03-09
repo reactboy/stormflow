@@ -3,86 +3,6 @@ import { dbConnect } from '@utils/mongodb';
 import { Storm, StormDocument } from '@utils/mongodb/models';
 import { getTwitterClient } from '@libs/twitter';
 
-//NOTE サーバーサイドで取得してこの形に整形する。
-const stubStorms = [
-  {
-    id: '1',
-    text: 'initial storm',
-    includes: [
-      {
-        id: '1-1',
-        text: 'followed storm',
-        includes: [
-          {
-            id: '1-1-1',
-            text: 'followed followed storm',
-            includes: [
-              {
-                id: '1-1-1-1',
-                text: 'followed followed followed storm',
-                includes: [],
-              },
-            ],
-          },
-          {
-            id: '1-1-2',
-            text: 'followed followed storm',
-            includes: [],
-          },
-        ],
-      },
-      {
-        id: '1-2',
-        text: 'followed storm',
-        includes: [],
-      },
-      {
-        id: '1-3',
-        text: 'followed storm',
-        includes: [],
-      },
-    ],
-  },
-  {
-    id: '2',
-    text: 'initial storm',
-    includes: [
-      {
-        id: '2-1',
-        text: 'followed storm',
-        includes: [
-          {
-            id: '2-1-1',
-            text: 'followed followed storm',
-            includes: [
-              {
-                id: '2-1-1-1',
-                text: 'followed followed followed storm',
-                includes: [],
-              },
-            ],
-          },
-          {
-            id: '2-1-2',
-            text: 'followed followed storm',
-            includes: [],
-          },
-        ],
-      },
-      {
-        id: '2-2',
-        text: 'followed storm',
-        includes: [],
-      },
-      {
-        id: '2-3',
-        text: 'followed storm',
-        includes: [],
-      },
-    ],
-  },
-];
-
 export default async (req, res) => {
   const session = await getSession({ req });
   const { accessToken, refreshToken, uid } = session;
@@ -90,18 +10,25 @@ export default async (req, res) => {
   //NOTE uidが一致するものを取得する
   await dbConnect();
   const resStorm = await Storm.find({ userId: uid });
-  const stormId = (resStorm as StormDocument[]).map((storm) => storm.tweetIdStr).join(',');
+  const stormId = (resStorm as StormDocument[]).map((storm) => storm.tweetIdStr);
 
   //NOTE resStormにidが含まれるtweetを取得する
   const twitter = await getTwitterClient(accessToken, refreshToken);
   const tweets = await twitter.get('statuses/lookup', {
-    id: stormId,
+    id: stormId.join(','),
     trim_user: true,
   });
   console.log(tweets);
 
-  //TODO 成形する
-  const storms = tweets;
+  //TODO 再帰的な実装にしたい
+  const storms = tweets
+    .filter((tweet) => !tweet.in_reply_to_status_id)
+    .map(({ id, id_str, text }) => {
+      const includes = tweets
+        .filter((tweet) => tweet.in_reply_to_status_id === id)
+        .map(({ id, id_str, text }) => ({ id, id_str, text, includes: [] }));
+      return { id, id_str, text, includes };
+    });
 
   res.status(200).json(storms);
 };
