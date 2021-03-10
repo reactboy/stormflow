@@ -23,17 +23,17 @@ export default async (req, res) => {
   //TODO 再帰的な実装にしたい
   const storms = tweets
     .filter((tweet) => !tweet.in_reply_to_status_id)
-    .map(({ id, id_str, text, created_at }) => {
+    .map(({ id, id_str: idStr, text, created_at: createdAt }) => {
       const includes = tweets
         .filter((tweet) => tweet.in_reply_to_status_id === id)
-        .map(({ id, id_str, text, created_at }) => ({
+        .map(({ id, id_str: idStr, text, created_at: createdAt }) => ({
           id,
-          id_str,
+          idStr,
           text,
-          created_at,
+          createdAt,
           includes: [],
         }));
-      return { id, id_str, text, created_at, includes };
+      return { id, idStr, text, createdAt, includes };
     });
 
   res.status(200).json(storms);

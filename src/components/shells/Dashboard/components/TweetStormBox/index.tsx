@@ -11,7 +11,7 @@ type TweetStormBoxProps = {
 
 export const TweetStormBox: React.FC<TweetStormBoxProps> = (props) => {
   const { tweet, onAddStorm } = props;
-  const { id_str, text, created_at, includes = [] } = tweet;
+  const { idStr, text, createdAt, includes = [] } = tweet;
   return (
     <Box
       bg="white"
@@ -22,7 +22,7 @@ export const TweetStormBox: React.FC<TweetStormBoxProps> = (props) => {
       _notFirst={{ borderTop: 'none' }}
     >
       <Text textAlign="right" fontSize="8px">
-        {formatDateString(created_at)}
+        {formatDateString(createdAt)}
       </Text>
       <Text fontSize="16px">{text}</Text>
       {!!includes.length &&
@@ -34,7 +34,7 @@ export const TweetStormBox: React.FC<TweetStormBoxProps> = (props) => {
           borderRadius="full"
           size="sm"
           ml="auto"
-          onClick={onAddStorm(id_str)}
+          onClick={onAddStorm(idStr)}
           aria-label="add storm"
           icon={<LogoIcon boxSize={5} />}
         />
