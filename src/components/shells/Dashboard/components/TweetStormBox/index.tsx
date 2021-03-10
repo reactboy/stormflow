@@ -1,12 +1,8 @@
 import { Box, Text, IconButton, Flex } from '@chakra-ui/react';
 import { Tweet } from '@utils/types';
+import { formatDateString } from '@utils';
 import { LogoIcon } from '@components/common';
 import { TweetStorm } from './components';
-//TODO 日付のフォーマッタをutilsで共通化する
-import dayjs from 'dayjs';
-
-const formatDateString = (dateString: string, format = 'MM/DD/YY') =>
-  dayjs(dateString).format(format);
 
 type TweetStormBoxProps = {
   tweet: Tweet;
