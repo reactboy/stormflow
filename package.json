@@ -13,7 +13,6 @@
     "@emotion/styled": "^11.1.5",
     "@reduxjs/toolkit": "^1.5.0",
     "axios": "^0.21.1",
-    "dayjs": "^1.10.4",
     "framer-motion": "^3.6.2",
     "mongoose": "^5.11.18",
     "next": "10.0.7",
