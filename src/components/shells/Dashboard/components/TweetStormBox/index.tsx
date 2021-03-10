@@ -2,6 +2,11 @@ import { Box, Text, IconButton, Flex } from '@chakra-ui/react';
 import { Tweet } from '@utils/types';
 import { LogoIcon } from '@components/common';
 import { TweetStorm } from './components';
+//TODO 日付のフォーマッタをutilsで共通化する
+import dayjs from 'dayjs';
+
+const formatDateString = (dateString: string, format = 'MM/DD/YY') =>
+  dayjs(dateString).format(format);
 
 type TweetStormBoxProps = {
   tweet: Tweet;
@@ -10,7 +15,7 @@ type TweetStormBoxProps = {
 
 export const TweetStormBox: React.FC<TweetStormBoxProps> = (props) => {
   const { tweet, onAddStorm } = props;
-  const { id_str, text, includes = [] } = tweet;
+  const { id_str, text, created_at, includes = [] } = tweet;
   return (
     <Box
       bg="white"
@@ -20,6 +25,9 @@ export const TweetStormBox: React.FC<TweetStormBoxProps> = (props) => {
       borderColor="gray.200"
       _notFirst={{ borderTop: 'none' }}
     >
+      <Text textAlign="right" fontSize="8px">
+        {formatDateString(created_at)}
+      </Text>
       <Text fontSize="16px">{text}</Text>
       {!!includes.length &&
         includes.map((tweet) => <TweetStorm level={0 + 1} key={tweet.id} tweet={tweet} />)}
