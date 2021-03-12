@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
-import { useSession } from 'next-auth/client';
+import { Session } from 'next-auth/client';
 import {
   Flex,
   Button,
@@ -17,11 +17,15 @@ import { useWindowSize } from '@hooks';
 import { Navigation, Toast, Footer, Logo } from '@components/common';
 import { TweetStormBox, NewStormModal } from './components';
 
-export const DashboardShell = () => {
+type DashboardShellProps = {
+  session: Session;
+};
+
+export const DashboardShell: React.FC<DashboardShellProps> = (props) => {
+  const { session } = props;
   const { height } = useWindowSize();
   const [tweetInput, setTweetInput] = useState<string>('');
   const [replyId, setReplyId] = useState<string>('');
-  const [session, loadingSession] = useSession();
   const { isOpen: isOpenCreate, onOpen: onOpenCreate, onClose: onCloseCreate } = useDisclosure();
   const { isOpen: isOpenAdd, onOpen: onOpenAdd, onClose: onCloseAdd } = useDisclosure();
   const toast = useToast();
@@ -66,8 +70,6 @@ export const DashboardShell = () => {
     onCloseAdd();
   };
 
-  // if (loadingSession) return <div>spinner</div>;
-
   return (
     <>
       <Box pos="fixed" bottom="8px" right="8px" zIndex="1000">
@@ -85,7 +87,7 @@ export const DashboardShell = () => {
         borderColor="gray.200"
         position="relative"
       >
-        {(loadingSession || isLoading) && (
+        {isLoading && (
           <Stack p="8px">
             {[...Array(32)].map((_value, i) => (
               <Skeleton key={i} mt="4px" height="40px" />
