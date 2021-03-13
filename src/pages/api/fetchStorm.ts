@@ -2,6 +2,7 @@ import { getSession } from 'next-auth/client';
 import { dbConnect } from '@utils/mongodb';
 import { Storm, StormDocument } from '@utils/mongodb/models';
 import { getTwitterClient } from '@libs/twitter';
+import { sortByCreatedBy } from '@utils/sort';
 
 export default async (req, res) => {
   const session = await getSession({ req });
@@ -32,9 +33,11 @@ export default async (req, res) => {
           text,
           createdAt,
           includes: [],
-        }));
+        }))
+        .sort(sortByCreatedBy('asc'));
       return { id, idStr, text, createdAt, includes };
-    });
+    })
+    .sort(sortByCreatedBy('desc'));
 
   res.status(200).json(storms);
 };
