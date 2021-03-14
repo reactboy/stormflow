@@ -1,11 +1,16 @@
 import { Box, Button } from '@chakra-ui/react';
-import { Center, Footer, Logo } from '@components/common';
-import { signIn } from 'next-auth/client';
+import { Center, Footer, Logo, Redirect } from '@components/common';
+import { signIn, useSession } from 'next-auth/client';
 
 export const TopShell = () => {
+  const [session, sessionLoading] = useSession();
   const onClickCTA = () => {
     signIn();
   };
+
+  if (sessionLoading) return <>loading session</>;
+  if(session) return <Redirect path="/dashboard" />
+
   return (
     <>
       <Center transform="translate(-50%, -100%)">
