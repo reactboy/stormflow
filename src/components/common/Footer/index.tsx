@@ -1,5 +1,5 @@
 import { Box, Stack, Text } from '@chakra-ui/react';
-
+import Link from 'next/link';
 type FooterProps = {
   direction?: 'column' | 'row';
 };
@@ -9,14 +9,22 @@ export const Footer: React.FC<FooterProps> = (props) => {
   return (
     <Box fontFamily="IBM Plex Mono">
       <Stack direction={direction} textAlign={direction === 'column' ? 'right' : 'left'}>
+        <Box>
+          <Text textDecoration="underline" fontSize="xs">
+            <Link href="/termsOfUse">
+              <a>terms-of-use</a>
+            </Link>
+          </Text>
+        </Box>
+        <Box>
+          <Text textDecoration="underline" fontSize="xs">
+            <Link href="/privacyPolicy">
+              <a>privacy-policy</a>
+            </Link>
+          </Text>
+        </Box>
         {/* TODO ページ作ったらコメントアウト解除 */}
         {/* <Box>
-          <Text fontSize="xs">terms-of-use</Text>
-        </Box>
-        <Box>
-          <Text fontSize="xs">privacy-policy</Text>
-        </Box>
-        <Box>
           <Text fontSize="xs">roadmap</Text>
         </Box> */}
       </Stack>
