@@ -1,4 +1,4 @@
-import { Flex, Text , FlexProps} from '@chakra-ui/react';
+import { Flex, Text, FlexProps } from '@chakra-ui/react';
 import { LogoIcon } from '@components/common/Icon';
 
 const logoSize = {
@@ -25,11 +25,12 @@ type LogoProps = {
 };
 
 export const Logo: React.FC<LogoProps & FlexProps> = (props) => {
-  const { withIcon = true, size = 'lg', ...restProps } = props;
+  const { withIcon = true, size = 'lg', as = 'p', ...restProps } = props;
   return (
     <Flex alignItems="center" {...restProps}>
       {withIcon && <LogoIcon boxSize={logoSize[size].boxSize} />}
       <Text
+        as={as}
         fontFamily="IBM Plex Mono"
         fontStyle="italic"
         fontWeight="medium"
