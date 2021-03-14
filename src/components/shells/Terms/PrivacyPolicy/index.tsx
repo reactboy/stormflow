@@ -11,7 +11,7 @@ export const PrivacyPolicyShell = () => {
     <>
       <Heading>Privacy-policy</Heading>
       <Box>
-        <Text>Stormflow use following information of you tweeter account</Text>
+        <Text>Stormflow use following information of your twitter account</Text>
         <Text>Tweet</Text>
         <Text>Profile Image</Text>
         <Text>User name</Text>
