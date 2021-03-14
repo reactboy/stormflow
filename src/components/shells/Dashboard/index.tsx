@@ -141,17 +141,16 @@ export const DashboardShell: React.FC<DashboardShellProps> = (props) => {
                 w="100%"
                 maxW="320px"
               >
-                <Text>
-                  <span>Create Your Very First STORM </span>
-                </Text>
+                <Box>
+                  <Text>Create Your Very First STORM </Text>
+                </Box>
                 <Button
                   mt="16px"
                   size="sm"
                   display="inline-block"
                   onClick={onOpenCreate}
-                  borderRadius="20px"
                 >
-                  STORM
+                  CREATE STORM
                 </Button>
               </Box>
             )}
